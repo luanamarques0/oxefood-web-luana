@@ -57,7 +57,7 @@ export default function FormCliente() {
                                     label='Fone Fixo'
                                     width={6}>
                                     <InputMask
-                                        mask="(99) 9999.9999"
+                                        mask="(99) 99999.9999"
                                     />
                                 </Form.Input>
 
