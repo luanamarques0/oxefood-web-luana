@@ -1,6 +1,7 @@
 import InputMask from "comigo-tech-react-input-mask/lib/react-input-mask.development";
 import React, { useState } from "react";
 import { Button, Container, Divider, Form, FormSelect, Icon } from 'semantic-ui-react';
+import MenuSistema from "../../MenuSistema";
 
 export default function FormEntregador() {
 
@@ -40,6 +41,7 @@ export default function FormEntregador() {
 
     return (
         <div>
+            <MenuSistema tela='entregador' />
             <div style={{ marginTop: '3%' }}>
                 <Container textAlign='justified' >
                     <h2><span style={{ color: 'darkgray' }}>Entregador &nbsp;<Icon name="angle double right" size="small"></Icon></span> Cadastro</h2>
