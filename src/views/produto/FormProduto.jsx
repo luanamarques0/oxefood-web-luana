@@ -1,6 +1,8 @@
 import React, { useState } from "react";
 import { Button, Container, Divider, Form, Icon } from "semantic-ui-react";
 import MenuSistema from "../../MenuSistema";
+import axios from 'axios';
+import { Link } from "react-router-dom";
 
 export default function FormProduto() {
     const [titulo, setTitulo] = useState();
@@ -10,7 +12,7 @@ export default function FormProduto() {
     const [tempoEntregaMinimo, setEntregaMinimo] = useState();
     const [tempoEntregaMaximo, setEntregaMaximo] = useState();
 
-    function salvar(){
+    function salvar() {
 
         let produtoRequest = {
             titulo: titulo,
@@ -21,13 +23,13 @@ export default function FormProduto() {
             tempoEntregaMaximo: tempoEntregaMaximo
         }
 
-        axios.post("http://localhost:8080/api/produto", produtoRequest)
-        .then((response) => {
-            console.log('Produto cadastrado com sucesso.')
-        })
-        .catch((error) => {
-            console.log("Erro ao inclui um produto")
-        })
+        axios.post("http://localhost:8081/api/produto", produtoRequest)
+            .then((response) => {
+                console.log('Produto cadastrado com sucesso.')
+            })
+            .catch((error) => {
+                console.log("Erro ao inclui um produto")
+            })
     }
 
     return (
@@ -46,7 +48,7 @@ export default function FormProduto() {
                                     label='Título:'
                                     maxLength="100"
                                     value={titulo}
-                                    onChange={e=> setTitulo(e.target.value)}
+                                    onChange={e => setTitulo(e.target.value)}
                                 />
                                 <Form.Input
                                     required
@@ -90,23 +92,25 @@ export default function FormProduto() {
                                     label='Tempo de Entrega Máximo em Minutos: '
                                     maxLength="10"
                                     value={tempoEntregaMaximo}
-                                    onChange={e=> setEntregaMaximo(e.target.value)}
+                                    onChange={e => setEntregaMaximo(e.target.value)}
                                 />
                             </Form.Group>
                         </Form>
 
                         <div style={{ marginTop: '4%' }}>
-                            <Button
-                                type="button"
-                                inverted
-                                circular
-                                color='orange'
-                                icon
-                                labelPosition="left"
-                            >
-                                <Icon name='reply' />
-                                Listar
-                            </Button>
+                            <Link to={'/list-produto'}>
+                                <Button
+                                    type="button"
+                                    inverted
+                                    circular
+                                    color='orange'
+                                    icon
+                                    labelPosition="left"
+                                >
+                                    <Icon name='reply' />
+                                    Listar
+                                </Button>
+                            </Link>
 
                             <Button
                                 type="button"
@@ -116,6 +120,7 @@ export default function FormProduto() {
                                 icon
                                 labelPosition="left"
                                 floated="right"
+                                onClick={() => salvar()}
                             >
                                 <Icon name='save' />
                                 Salvar

@@ -3,6 +3,7 @@ import InputMask from 'comigo-tech-react-input-mask';
 import React, { useState } from "react";
 import { Button, Container, Divider, Form, Icon } from 'semantic-ui-react';
 import MenuSistema from '../../MenuSistema';
+import { Link } from "react-router-dom";
 
 export default function FormCliente() {
     const [nome, setNome] = useState();
@@ -13,22 +14,22 @@ export default function FormCliente() {
 
     function salvar() {
 
-		let clienteRequest = {
-		     nome: nome,
-		     cpf: cpf,
-		     dataNascimento: dataNascimento,
-		     foneCelular: foneCelular,
-		     foneFixo: foneFixo
-		}
-	
-		axios.post("http://localhost:8080/api/cliente", clienteRequest)
-		.then((response) => {
-		     console.log('Cliente cadastrado com sucesso.')
-		})
-		.catch((error) => {
-		     console.log('Erro ao incluir o um cliente.')
-		})
-	}
+        let clienteRequest = {
+            nome: nome,
+            cpf: cpf,
+            dataNascimento: dataNascimento,
+            foneCelular: foneCelular,
+            foneFixo: foneFixo
+        }
+
+        axios.post("http://localhost:8081/api/cliente", clienteRequest)
+            .then((response) => {
+                console.log('Cliente cadastrado com sucesso.')
+            })
+            .catch((error) => {
+                console.log('Erro ao incluir o um cliente.')
+            })
+    }
 
     return (
 
@@ -54,14 +55,14 @@ export default function FormCliente() {
                                     label='Nome'
                                     maxLength="100"
                                     value={nome}
-                                    onChange={e=> setNome(e.target.value)}
+                                    onChange={e => setNome(e.target.value)}
                                 />
 
                                 <Form.Input
                                     required
                                     fluid
                                     value={cpf}
-                                    onChange={e=> setCpf(e.target.value)}
+                                    onChange={e => setCpf(e.target.value)}
                                     label='CPF'>
                                     <InputMask
                                         required
@@ -77,7 +78,7 @@ export default function FormCliente() {
                                     fluid
                                     label='Fone Celular'
                                     value={foneCelular}
-                                    onChange={e=> setFoneCelular(e.target.value)}
+                                    onChange={e => setFoneCelular(e.target.value)}
                                     width={6}>
                                     <InputMask
                                         mask="(99) 9999.9999"
@@ -88,7 +89,7 @@ export default function FormCliente() {
                                     fluid
                                     label='Fone Fixo'
                                     value={foneFixo}
-                                    onChange={e=> setFoneFixo(e.target.value)}
+                                    onChange={e => setFoneFixo(e.target.value)}
                                     width={6}>
                                     <InputMask
                                         mask="(99) 99999.9999"
@@ -99,7 +100,7 @@ export default function FormCliente() {
                                     fluid
                                     label='Data Nascimento'
                                     value={dataNascimento}
-                                    onChange={e=> setDataNascimento(e.target.value)}
+                                    onChange={e => setDataNascimento(e.target.value)}
                                     width={6}
                                 >
                                     <InputMask
@@ -114,19 +115,19 @@ export default function FormCliente() {
                         </Form>
 
                         <div style={{ marginTop: '4%' }}>
-
-                            <Button
-                                type="button"
-                                inverted
-                                circular
-                                icon
-                                labelPosition='left'
-                                color='orange'
-                            >
-                                <Icon name='reply' />
-                                Voltar
-                            </Button>
-
+                            <Link to={'/list-cliente'}>
+                                <Button
+                                    type="button"
+                                    inverted
+                                    circular
+                                    icon
+                                    labelPosition='left'
+                                    color='orange'
+                                >
+                                    <Icon name='reply' />
+                                    Voltar
+                                </Button>
+                            </Link>
                             <Button
                                 inverted
                                 circular

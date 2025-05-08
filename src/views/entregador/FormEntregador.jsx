@@ -2,10 +2,12 @@ import InputMask from "comigo-tech-react-input-mask/lib/react-input-mask.develop
 import React, { useState } from "react";
 import { Button, Container, Divider, Form, FormSelect, Icon } from 'semantic-ui-react';
 import MenuSistema from "../../MenuSistema";
+import axios from "axios";
+import { Link } from "react-router-dom";
 
 export default function FormEntregador() {
 
-    const [ativo, setAtivo] = useState('');
+    const [ativo, setAtivo] = useState();
     const [nome, setNome] = useState();
     const [cpf, setCpf] = useState();
     const [rg, setRg] = useState();
@@ -22,39 +24,39 @@ export default function FormEntregador() {
     const [enderecoCep, setEnderecoCep] = useState();
     const [enderecoUf, setEderecoUf] = useState();
 
-    const handleChange = (e, { value }) => { setAtivo(value); };
+    // const handleChange = (e, { value }) => { setAtivo(value); };
 
     const options = [
-        { key: 'AC', text: 'AC', value: 'AC' },
-        { key: 'AL', text: 'AL', value: 'AL' },
-        { key: 'AP', text: 'AP', value: 'AP' },
-        { key: 'AM', text: 'AM', value: 'AM' },
-        { key: 'BA', text: 'BA', value: 'BA' },
-        { key: 'CE', text: 'CE', value: 'CE' },
-        { key: 'DF', text: 'DF', value: 'DF' },
-        { key: 'ES', text: 'ES', value: 'ES' },
-        { key: 'GO', text: 'GO', value: 'GO' },
-        { key: 'MA', text: 'MA', value: 'MA' },
-        { key: 'MT', text: 'MT', value: 'MT' },
-        { key: 'MS', text: 'MS', value: 'MS' },
-        { key: 'MG', text: 'MG', value: 'MG' },
-        { key: 'PA', text: 'PA', value: 'PA' },
-        { key: 'PB', text: 'PB', value: 'PB' },
-        { key: 'PR', text: 'PR', value: 'PR' },
-        { key: 'PE', text: 'PE', value: 'PE' },
-        { key: 'PI', text: 'PI', value: 'PI' },
-        { key: 'RJ', text: 'RJ', value: 'RJ' },
-        { key: 'RN', text: 'RN', value: 'RN' },
-        { key: 'RS', text: 'RS', value: 'RS' },
-        { key: 'RO', text: 'RO', value: 'RO' },
-        { key: 'RR', text: 'RR', value: 'RR' },
-        { key: 'SC', text: 'SC', value: 'SC' },
-        { key: 'SP', text: 'SP', value: 'SP' },
-        { key: 'SE', text: 'SE', value: 'SE' },
-        { key: 'TO', text: 'TO', value: 'TO' },
+        { key: 'AC', text: 'Acre', value: 'AC' },
+        { key: 'AL', text: 'Alagoas', value: 'AL' },
+        { key: 'AP', text: 'Amapá', value: 'AP' },
+        { key: 'AM', text: 'Amazonas', value: 'AM' },
+        { key: 'BA', text: 'Bahia', value: 'BA' },
+        { key: 'CE', text: 'Ceará', value: 'CE' },
+        { key: 'DF', text: 'Distrito Federal', value: 'DF' },
+        { key: 'ES', text: 'Espírito Santo', value: 'ES' },
+        { key: 'GO', text: 'Goiás', value: 'GO' },
+        { key: 'MA', text: 'Maranhão', value: 'MA' },
+        { key: 'MT', text: 'Mato Grosso', value: 'MT' },
+        { key: 'MS', text: 'Mato Grosso do Sul', value: 'MS' },
+        { key: 'MG', text: 'Minas Gerais', value: 'MG' },
+        { key: 'PA', text: 'Pará', value: 'PA' },
+        { key: 'PB', text: 'Paraíba', value: 'PB' },
+        { key: 'PR', text: 'Paraná', value: 'PR' },
+        { key: 'PE', text: 'Pernambuco', value: 'PE' },
+        { key: 'PI', text: 'Piauí', value: 'PI' },
+        { key: 'RJ', text: 'Rio de Janeiro', value: 'RJ' },
+        { key: 'RN', text: 'Rio Grande do Norte', value: 'RN' },
+        { key: 'RS', text: 'Rio Grande do Sul', value: 'RS' },
+        { key: 'RO', text: 'Rondônia', value: 'RO' },
+        { key: 'RR', text: 'Roraima', value: 'RR' },
+        { key: 'SC', text: 'Santa Catarina', value: 'SC' },
+        { key: 'SP', text: 'São Paulo', value: 'SP' },
+        { key: 'SE', text: 'Sergipe', value: 'SE' },
+        { key: 'TO', text: 'Tocantins', value: 'TO' },
     ];
 
-    function salvar(){
+    function salvar() {
         let entregadorRequest = {
             nome: nome,
             cpf: cpf,
@@ -62,7 +64,7 @@ export default function FormEntregador() {
             dataNascimento: dataNascimento,
             foneCelular: foneCelular,
             foneFixo: foneFixo,
-            qteEntregasRealizadas: qteEntregasRealizadas,
+            qtdEntregasRealizadas: qtdEntregasRealizadas,
             valorFretes: valorFretes,
             enderecoRua: enderecoRua,
             enderecoComplemento: enderecoComplemento,
@@ -70,8 +72,17 @@ export default function FormEntregador() {
             enderecoBairro: enderecoBairro,
             enderecoCidade: enderecoCidade,
             enderecoCep: enderecoCep,
-            enderecoUf: enderecoUf
+            enderecoUf: enderecoUf,
+            ativo: ativo,
         }
+
+        axios.post("http://localhost:8081/api/entregador", entregadorRequest)
+            .then((response) => {
+                console.log('Entregador cadastrado com sucesso.')
+            })
+            .catch((error) => {
+                console.log("Erro ao cadastrar entregador.")
+            })
     }
 
     return (
@@ -93,7 +104,7 @@ export default function FormEntregador() {
                                     label='Nome:'
                                     maxLength="100"
                                     value={nome}
-                                    onChange={e=> setNome(e.target.value)}
+                                    onChange={e => setNome(e.target.value)}
                                 />
                                 <Form.Input
                                     required
@@ -112,7 +123,7 @@ export default function FormEntregador() {
                                     fluid
                                     width={4}
                                     value={rg}
-                                    onChange={e=> setRg(e.target.value)}
+                                    onChange={e => setRg(e.target.value)}
                                     label='RG:'>
                                     <InputMask
                                         required={false}
@@ -128,7 +139,7 @@ export default function FormEntregador() {
                                     fluid
                                     width={6}
                                     value={dataNascimento}
-                                    onChange={e=> setDataNascimento(e.target.value)}
+                                    onChange={e => setDataNascimento(e.target.value)}
                                     label='DT Nascimento:'>
                                     <InputMask
                                         mask="99/99/9999"
@@ -142,7 +153,7 @@ export default function FormEntregador() {
                                     fluid
                                     width={6}
                                     value={foneFixo}
-                                    onChange={e=> setFoneFixo(e.target.value)}
+                                    onChange={e => setFoneFixo(e.target.value)}
                                     label='Fone Fixo:'>
                                     <InputMask
                                         mask="(99) 99999.9999"
@@ -153,7 +164,7 @@ export default function FormEntregador() {
                                     fluid
                                     width={6}
                                     value={foneCelular}
-                                    onChange={e=> setFoneCelular(e.target.value)}
+                                    onChange={e => setFoneCelular(e.target.value)}
                                     label='Fone Celular:'>
                                     <InputMask
                                         mask="(99) 9999.9999"
@@ -165,7 +176,7 @@ export default function FormEntregador() {
                                     width={6}
                                     label='QTD Entregas Realizadas:'
                                     value={qtdEntregasRealizadas}
-                                    onChange={e=> setQtdEntregasRealizadas(e.target.value)}
+                                    onChange={e => setQtdEntregasRealizadas(e.target.value)}
                                 />
                                 <Form.Input
                                     required={false}
@@ -173,7 +184,7 @@ export default function FormEntregador() {
                                     width={6}
                                     label='Valor por Frete:'
                                     value={valorFretes}
-                                    onChange={e=> setValorFretes(e.target.value)}
+                                    onChange={e => setValorFretes(e.target.value)}
                                 />
                             </Form.Group>
 
@@ -185,7 +196,7 @@ export default function FormEntregador() {
                                     label='Rua:'
                                     maxLength="100"
                                     value={enderecoRua}
-                                    onChange={e=> setEnderecoRua(e.target.value)}
+                                    onChange={e => setEnderecoRua(e.target.value)}
                                 />
                                 <Form.Input
                                     required={false}
@@ -194,7 +205,7 @@ export default function FormEntregador() {
                                     label='Número:'
                                     maxLength="10"
                                     value={enderecoNumero}
-                                    onChange={e=> setEnderecoNumero(e.target.value)}
+                                    onChange={e => setEnderecoNumero(e.target.value)}
                                 />
                             </Form.Group>
 
@@ -206,7 +217,7 @@ export default function FormEntregador() {
                                     label='Bairro:'
                                     maxLength="100"
                                     value={enderecoBairro}
-                                    onChange={e=> setEnderecoBairro(e.target.value)}
+                                    onChange={e => setEnderecoBairro(e.target.value)}
                                 />
                                 <Form.Input
                                     required={false}
@@ -215,14 +226,14 @@ export default function FormEntregador() {
                                     label='Cidade:'
                                     maxLength="100"
                                     value={enderecoCidade}
-                                    onChange={e=> setEnderecoCidade(e.target.value)}
+                                    onChange={e => setEnderecoCidade(e.target.value)}
                                 />
                                 <Form.Input
                                     required={false}
                                     fluid
                                     width={3}
                                     value={enderecoCep}
-                                    onChange={e=> setEnderecoCep(e.target.value)}
+                                    onChange={e => setEnderecoCep(e.target.value)}
                                     label='CEP:'>
                                     <InputMask
                                         mask="99999-999"
@@ -240,7 +251,7 @@ export default function FormEntregador() {
                                     search
                                     options={options}
                                     value={enderecoUf}
-                                    onChange={e=> setEderecoUf(e.target.value)}
+                                    onChange={e => setEderecoUf(e.target.value)}
                                 />
                             </Form.Group>
 
@@ -251,7 +262,7 @@ export default function FormEntregador() {
                                     label='Complemento:'
                                     maxLength="100"
                                     value={enderecoComplemento}
-                                    onChange={e=> setEnderecoComplemento(e.target.value)}
+                                    onChange={e => setEnderecoComplemento(e.target.value)}
                                 />
                             </Form.Group>
 
@@ -259,32 +270,33 @@ export default function FormEntregador() {
                                 <label>Ativo: </label>
                                 <Form.Radio
                                     label='Sim'
-                                    value='sim'
-                                    checked={ativo === 'sim'}
+                                    value='true'
+                                    checked={ativo === 'true'}
                                     onChange={(e, { value }) => setAtivo(value)}
                                 />
                                 <Form.Radio
                                     label='Não'
-                                    value='nao'
-                                    checked={ativo === 'nao'}
+                                    value='false'
+                                    checked={ativo === 'false'}
                                     onChange={(e, { value }) => setAtivo(value)}
                                 />
                             </Form.Group>
                         </Form>
                     </div>
                     <div style={{ marginTop: '4%' }}>
-                        <Button
-                            type="button"
-                            inverted
-                            circular
-                            color='orange'
-                            icon
-                            labelPosition="left"
-                        >
-                            <Icon name='reply' />
-                            Voltar
-                        </Button>
-
+                        <Link to={'/list-entregador'}>
+                            <Button
+                                type="button"
+                                inverted
+                                circular
+                                color='orange'
+                                icon
+                                labelPosition="left"
+                            >
+                                <Icon name='reply' />
+                                Voltar
+                            </Button>
+                        </Link>
                         <Button
                             type="button"
                             inverted
@@ -293,6 +305,7 @@ export default function FormEntregador() {
                             icon
                             labelPosition="left"
                             floated="right"
+                            onClick={() => salvar()}
                         >
                             <Icon name='save' />
                             Salvar
