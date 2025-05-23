@@ -15,14 +15,14 @@ export default function FormEntregador() {
     const [foneCelular, setFoneCelular] = useState();
     const [foneFixo, setFoneFixo] = useState();
     const [qtdEntregasRealizadas, setQtdEntregasRealizadas] = useState();
-    const [valorFretes, setValorFretes] = useState();
+    const [valorFrete, setValorFretes] = useState();
     const [enderecoRua, setEnderecoRua] = useState();
     const [enderecoComplemento, setEnderecoComplemento] = useState();
     const [enderecoNumero, setEnderecoNumero] = useState();
     const [enderecoBairro, setEnderecoBairro] = useState();
     const [enderecoCidade, setEnderecoCidade] = useState();
     const [enderecoCep, setEnderecoCep] = useState();
-    const [enderecoUf, setEderecoUf] = useState();
+    const [enderecoUf, setEnderecoUf] = useState();
 
     // const handleChange = (e, { value }) => { setAtivo(value); };
 
@@ -64,8 +64,8 @@ export default function FormEntregador() {
             dataNascimento: dataNascimento,
             foneCelular: foneCelular,
             foneFixo: foneFixo,
-            qtdEntregasRealizadas: qtdEntregasRealizadas,
-            valorFretes: valorFretes,
+            qtdEntregasRealizadas: Number(qtdEntregasRealizadas),
+            valorFrete: parseFloat(valorFrete),
             enderecoRua: enderecoRua,
             enderecoComplemento: enderecoComplemento,
             enderecoNumero: enderecoNumero,
@@ -76,12 +76,15 @@ export default function FormEntregador() {
             ativo: ativo,
         }
 
+        console.log(entregadorRequest);
+
         axios.post("http://localhost:8081/api/entregador", entregadorRequest)
             .then((response) => {
                 console.log('Entregador cadastrado com sucesso.')
             })
             .catch((error) => {
                 console.log("Erro ao cadastrar entregador.")
+                console.log(error)
             })
     }
 
@@ -110,10 +113,11 @@ export default function FormEntregador() {
                                     required
                                     fluid
                                     width={4}
-                                    value={cpf}
-                                    onChange={e => setCpf(e.target.value)}
+
                                     label='CPF'>
                                     <InputMask
+                                        value={cpf}
+                                        onChange={e => setCpf(e.target.value)}
                                         required
                                         mask="999.999.999-99"
                                     />
@@ -122,10 +126,11 @@ export default function FormEntregador() {
                                     required={false}
                                     fluid
                                     width={4}
-                                    value={rg}
-                                    onChange={e => setRg(e.target.value)}
+
                                     label='RG:'>
                                     <InputMask
+                                        value={rg}
+                                        onChange={e => setRg(e.target.value)}
                                         required={false}
                                         mask="9.999.999"
                                     />
@@ -138,10 +143,11 @@ export default function FormEntregador() {
                                     required={false}
                                     fluid
                                     width={6}
-                                    value={dataNascimento}
-                                    onChange={e => setDataNascimento(e.target.value)}
+
                                     label='DT Nascimento:'>
                                     <InputMask
+                                        value={dataNascimento}
+                                        onChange={e => setDataNascimento(e.target.value)}
                                         mask="99/99/9999"
                                         maskChar={null}
                                         placeholder="Ex: 20/03/1985"
@@ -152,22 +158,24 @@ export default function FormEntregador() {
                                     required={false}
                                     fluid
                                     width={6}
-                                    value={foneFixo}
-                                    onChange={e => setFoneFixo(e.target.value)}
+
                                     label='Fone Fixo:'>
                                     <InputMask
-                                        mask="(99) 99999.9999"
+                                        value={foneCelular}
+                                        onChange={e => setFoneCelular(e.target.value)}
+                                        mask="(99) 99999-9999"
                                     />
                                 </Form.Input>
                                 <Form.Input
                                     required
                                     fluid
                                     width={6}
-                                    value={foneCelular}
-                                    onChange={e => setFoneCelular(e.target.value)}
+
                                     label='Fone Celular:'>
                                     <InputMask
-                                        mask="(99) 9999.9999"
+                                        value={foneFixo}
+                                        onChange={e => setFoneFixo(e.target.value)}
+                                        mask="(99) 9999-9999"
                                     />
                                 </Form.Input>
                                 <Form.Input
@@ -183,7 +191,7 @@ export default function FormEntregador() {
                                     fluid
                                     width={6}
                                     label='Valor por Frete:'
-                                    value={valorFretes}
+                                    value={valorFrete}
                                     onChange={e => setValorFretes(e.target.value)}
                                 />
                             </Form.Group>
@@ -232,10 +240,11 @@ export default function FormEntregador() {
                                     required={false}
                                     fluid
                                     width={3}
-                                    value={enderecoCep}
-                                    onChange={e => setEnderecoCep(e.target.value)}
+
                                     label='CEP:'>
                                     <InputMask
+                                        value={enderecoCep}
+                                        onChange={e => setEnderecoCep(e.target.value)}
                                         mask="99999-999"
                                         maskChar={null}
                                     />
@@ -251,7 +260,7 @@ export default function FormEntregador() {
                                     search
                                     options={options}
                                     value={enderecoUf}
-                                    onChange={e => setEderecoUf(e.target.value)}
+                                    onChange={(e, { value }) => setEnderecoUf(value)}
                                 />
                             </Form.Group>
 
