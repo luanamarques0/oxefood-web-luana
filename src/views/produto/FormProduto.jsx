@@ -37,7 +37,7 @@ export default function FormProduto() {
             titulo: titulo,
             codigo: codigo,
             descricao: descricao,
-            valorUnitario: valorUnitario.replace(',', '.'),
+            valorUnitario: valorUnitario,
             tempoEntregaMinimo: tempoEntregaMinimo,
             tempoEntregaMaximo: tempoEntregaMaximo
         }

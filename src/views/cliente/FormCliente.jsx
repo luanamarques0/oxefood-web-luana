@@ -29,7 +29,7 @@ export default function FormCliente() {
                     setDataNascimento(formatarData(response.data.dataNascimento))
                     setFoneCelular(response.data.foneCelular)
                     setFoneFixo(response.data.foneFixo)
-                })
+                });
         }
     }, [state])
 
@@ -82,7 +82,7 @@ export default function FormCliente() {
                     {idCliente === undefined &&
                         <h2> <span style={{ color: 'darkgray' }}> Cliente &nbsp;<Icon name='angle double right' size="small" /> </span> Cadastro</h2>
                     }
-                    {idCliente != undefined &&
+                    {idCliente !== undefined &&
                         <h2> <span style={{ color: 'darkgray' }}> Cliente &nbsp;<Icon name='angle double right' size="small" /> </span> Alteração</h2>
                     }
 
