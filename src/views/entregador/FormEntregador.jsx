@@ -1,11 +1,14 @@
 import InputMask from "comigo-tech-react-input-mask/lib/react-input-mask.development";
-import React, { useState } from "react";
+import React, { useState, useEffect } from "react";
 import { Button, Container, Divider, Form, FormSelect, Icon } from 'semantic-ui-react';
 import MenuSistema from "../../MenuSistema";
 import axios from "axios";
-import { Link } from "react-router-dom";
+import { Link, useLocation } from "react-router-dom";
 
 export default function FormEntregador() {
+
+    const { state } = useLocation();
+    const [idEntregador, setIdEntregador] = useState();
 
     const [ativo, setAtivo] = useState();
     const [nome, setNome] = useState();
@@ -56,6 +59,39 @@ export default function FormEntregador() {
         { key: 'TO', text: 'Tocantins', value: 'TO' },
     ];
 
+    useEffect(() => {
+    if (state != null && state.id != null) {
+        axios.get("http://localhost:8081/api/entregador/" + state.id)
+            .then((response) => {
+                const data = response.data;
+
+                console.log(data);
+
+                setIdEntregador(response.data.id)
+                setAtivo(data.ativo); 
+                setNome(data.nome);
+                setCpf(data.cpf);
+                setRg(data.rg);
+                setDataNascimento(data.dataNascimento);
+                setFoneCelular(data.foneCelular);
+                setFoneFixo(data.foneFixo);
+                setQtdEntregasRealizadas(data.qtdEntregasRealizadas);
+                setValorFretes(data.valorFrete);
+                setEnderecoRua(data.enderecoRua);
+                setEnderecoComplemento(data.enderecoComplemento);
+                setEnderecoNumero(data.enderecoNumero);
+                setEnderecoBairro(data.enderecoBairro);
+                setEnderecoCidade(data.enderecoCidade);
+                setEnderecoCep(data.enderecoCep);
+                setEnderecoUf(data.enderecoUf);
+            })
+            .catch((error) => {
+                console.error("Erro ao buscar entregador:", error);
+            });
+    }
+}, [state]);
+
+
     function salvar() {
         let entregadorRequest = {
             nome: nome,
@@ -73,19 +109,26 @@ export default function FormEntregador() {
             enderecoCidade: enderecoCidade,
             enderecoCep: enderecoCep,
             enderecoUf: enderecoUf,
-            ativo: ativo,
+            ativo: Boolean(ativo),
         }
 
-        console.log(entregadorRequest);
-
-        axios.post("http://localhost:8081/api/entregador", entregadorRequest)
+        // console.log(entregadorRequest);
+        if(idEntregador != null) {
+            axios.put('http://localhost:8081/api/entregador/' + idEntregador, entregadorRequest)
+            .then((response) => {console.log("Entregador alterado com sucesso.")})
+            .catch((error) => {console.log("Erro ao alterar um entregador: " + error) 
+                console.log(entregadorRequest)});
+        } else {
+            axios.post("http://localhost:8081/api/entregador", entregadorRequest)
             .then((response) => {
-                console.log('Entregador cadastrado com sucesso.')
+                console.log('Entregador cadastrado com sucesso.');
+                console.log(entregadorRequest);
             })
             .catch((error) => {
-                console.log("Erro ao cadastrar entregador.")
-                console.log(error)
-            })
+                console.log("Erro ao cadastrar entregador.");
+                console.log(error);
+            });
+        }
     }
 
     return (
@@ -93,7 +136,14 @@ export default function FormEntregador() {
             <MenuSistema tela='entregador' />
             <div style={{ marginTop: '3%' }}>
                 <Container textAlign='justified' >
-                    <h2><span style={{ color: 'darkgray' }}>Entregador &nbsp;<Icon name="angle double right" size="small"></Icon></span> Cadastro</h2>
+                    
+                    {idEntregador === undefined &&
+                        <h2> <span style={{ color: 'darkgray' }}> Entregador &nbsp;<Icon name='angle double right' size="small" /> </span> Cadastro</h2>
+                    }
+                    {idEntregador !== undefined &&
+                        <h2> <span style={{ color: 'darkgray' }}> Entregador &nbsp;<Icon name='angle double right' size="small" /> </span> Alteração</h2>
+                    }
+
                     <Divider />
                     <div style={{ marginTop: '4%' }}>
                         <Form>
