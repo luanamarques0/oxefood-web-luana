@@ -94,7 +94,7 @@ export default function ListProduto() {
                                         <Table.Cell>{produto.titulo}</Table.Cell>
                                         <Table.Cell>{produto.codigo}</Table.Cell>
                                         <Table.Cell>{produto.descricao}</Table.Cell>
-                                        <Table.Cell>{produto.ValorUnitario}</Table.Cell>
+                                        <Table.Cell>{produto.valorUnitario}</Table.Cell>
                                         <Table.Cell>{produto.tempoEntregaMinimo}</Table.Cell>
                                         <Table.Cell>{produto.tempoEntregaMaximo}</Table.Cell>
                                         <Table.Cell textAlign='center'>

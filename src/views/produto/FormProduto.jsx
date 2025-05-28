@@ -37,7 +37,7 @@ export default function FormProduto() {
             titulo: titulo,
             codigo: codigo,
             descricao: descricao,
-            valorUnitario: valorUnitario,
+            valorUnitario: valorUnitario.replace(',', '.'),
             tempoEntregaMinimo: tempoEntregaMinimo,
             tempoEntregaMaximo: tempoEntregaMaximo
         }
@@ -51,6 +51,7 @@ export default function FormProduto() {
             axios.post("http://localhost:8081/api/produto", produtoRequest)
                 .then((response) => {
                     console.log('Produto cadastrado com sucesso.')
+                    // console.log(produtoRequest)
                 })
                 .catch((error) => {
                     console.log("Erro ao inclui um produto")
@@ -67,7 +68,7 @@ export default function FormProduto() {
                     {idProduto === undefined &&
                         <h2> <span style={{ color: 'darkgray' }}> Produto &nbsp;<Icon name='angle double right' size="small" /> </span> Cadastro</h2>
                     }
-                    {idProduto != undefined &&
+                    {idProduto !== undefined &&
                         <h2> <span style={{ color: 'darkgray' }}> Produto &nbsp;<Icon name='angle double right' size="small" /> </span> Alteração</h2>
                     }
 
