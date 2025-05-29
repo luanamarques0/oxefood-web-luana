@@ -31,7 +31,7 @@ export function ListCategoriaProduto() {
 
                 console.log('Categoria removida com sucesso.')
 
-                axios.get("http://localhost:8081/api/produto/categoria/")
+                axios.get("http://localhost:8081/api/produto/categoria")
                     .then((response) => {
                         setLista(response.data)
                     })
