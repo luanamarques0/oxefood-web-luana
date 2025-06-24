@@ -4,6 +4,7 @@ import React, { useState, useEffect } from "react";
 import { Button, Container, Divider, Form, Icon } from 'semantic-ui-react';
 import MenuSistema from '../../MenuSistema';
 import { Link, useLocation } from "react-router-dom";
+import FormEndereco from '../endereco/FormEndereco';
 
 export default function FormCliente() {
 

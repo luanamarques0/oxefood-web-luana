@@ -12,6 +12,10 @@ export default function FormProduto() {
     const [tempoEntregaMinimo, setEntregaMinimo] = useState();
     const [tempoEntregaMaximo, setEntregaMaximo] = useState();
 
+    const [listaCategoria, setListaCategoria] = useState([]);
+    const [idCategoria, setIdCategoria] = useState();
+
+
     const { state } = useLocation();
     const [idProduto, setIdProduto] = useState();
 
@@ -26,14 +30,23 @@ export default function FormProduto() {
                     setValorUnitario(response.data.valorUnitario)
                     setEntregaMinimo(response.data.tempoEntregaMinimo)
                     setEntregaMaximo(response.data.tempoEntregaMaximo)
+                    setIdCategoria(response.data.categoria.id)
                 })
         }
+
+        axios.get("http://localhost:8081/api/produto/categoria")
+            .then((response) => {
+                const dropDownCategorias = response.data.map(c => ({ text: c.descricao, value: c.id }));
+                setListaCategoria(dropDownCategorias);
+            })
+
     }, [state])
 
 
     function salvar() {
 
         let produtoRequest = {
+            idCategoria: idCategoria,
             titulo: titulo,
             codigo: codigo,
             descricao: descricao,
@@ -91,6 +104,20 @@ export default function FormProduto() {
                                     maxLength="200"
                                     value={codigo}
                                     onChange={e => setCodigo(e.target.value)}
+                                />
+                            </Form.Group>
+                            <Form.Group widths="equal">
+                                <Form.Select
+                                    required
+                                    fluid
+                                    tabIndex='3'
+                                    placeholder='Selecione'
+                                    label='Categoria'
+                                    options={listaCategoria}
+                                    value={idCategoria}
+                                    onChange={(e, { value }) => {
+                                        setIdCategoria(value)
+                                    }}
                                 />
                             </Form.Group>
                             <Form.Group widths='equal'>

@@ -4,7 +4,8 @@ import { Link } from "react-router-dom";
 import { Button, Container, Divider, Icon, Table, Header, Modal } from 'semantic-ui-react';
 import MenuSistema from '../../MenuSistema';
 
-export function ListCategoriaProduto() {
+export default function ListComprador() {
+
     const [lista, setLista] = useState([]);
     const [openModal, setOpenModal] = useState(false);
     const [idRemover, setIdRemover] = useState();
@@ -13,9 +14,14 @@ export function ListCategoriaProduto() {
         carregarLista();
     }, [])
 
+    function confirmaRemover(id) {
+        setOpenModal(true)
+        setIdRemover(id)
+    }
+
     function carregarLista() {
 
-        axios.get("http://localhost:8081/api/produto/categoria")
+        axios.get("http://localhost:8081/api/comprador")
             .then((response) => {
                 setLista(response.data)
             })
@@ -26,37 +32,31 @@ export function ListCategoriaProduto() {
 
     async function remover() {
 
-        await axios.delete('http://localhost:8081/api/produto/categoria/' + idRemover)
+        await axios.delete('http://localhost:8081/api/comprador/' + idRemover)
             .then((response) => {
 
-                console.log('Categoria removida com sucesso.')
+                console.log('Comprador removido com sucesso.')
 
-                axios.get("http://localhost:8081/api/produto/categoria")
+                axios.get("http://localhost:8081/api/comprador")
                     .then((response) => {
                         setLista(response.data)
                     })
             })
             .catch((error) => {
-                console.log('Erro ao remover uma categoria.')
+                console.log('Erro ao remover um comprador.')
             })
         setOpenModal(false)
     }
 
-    function confirmaRemover(id) {
-        setOpenModal(true)
-        setIdRemover(id)
-    }
 
     return (
         <div>
-            <MenuSistema tela={'categoriaProduto'} />
+            <MenuSistema tela={'comprador'} />
             <div style={{ marginTop: '3%' }}>
 
                 <Container textAlign='justified' >
-                    <h2>
-                        <span style={{ color: 'darkgray' }}> Produto &nbsp;<Icon name='angle double right' size="small" /> </span>
-                        Categoria
-                    </h2>
+
+                    <h2> Comprador </h2>
                     <Divider />
 
                     <div style={{ marginTop: '4%' }}>
@@ -67,7 +67,7 @@ export function ListCategoriaProduto() {
                             icon='clipboard outline'
                             floated='right'
                             as={Link}
-                            to='/form-produto-categoria'
+                            to='/form-comprador'
                         />
                         <br /><br /><br />
 
@@ -75,27 +75,28 @@ export function ListCategoriaProduto() {
 
                             <Table.Header>
                                 <Table.Row>
-                                    <Table.HeaderCell>Descrição</Table.HeaderCell>
-
+                                    <Table.HeaderCell>Nome</Table.HeaderCell>
+                                    <Table.HeaderCell>Segmento</Table.HeaderCell>
                                     <Table.HeaderCell textAlign='center'>Ações</Table.HeaderCell>
                                 </Table.Row>
                             </Table.Header>
 
                             <Table.Body>
 
-                                {lista.map(categoria => (
+                                {lista.map(comprador => (
 
-                                    <Table.Row key={categoria.id}>
-                                        <Table.Cell>{categoria.descricao}</Table.Cell>
+                                    <Table.Row key={comprador.id}>
+                                        <Table.Cell>{comprador.titulo}</Table.Cell>
+                                        <Table.Cell>{comprador.codigo}</Table.Cell>
                                         <Table.Cell textAlign='center'>
 
                                             <Button
                                                 inverted
                                                 circular
                                                 color='green'
-                                                title='Clique aqui para editar os está categoria'
+                                                title='Clique aqui para editar os dados deste comprador'
                                                 icon>
-                                                <Link to="/form-produto-categoria" state={{ id: categoria.id }} style={{ color: 'green' }}><Icon name='edit' /></Link>
+                                                <Link to="/form-comprador" state={{ id: comprador.id }} style={{ color: 'green' }}> <Icon name='edit' /> </Link>
 
                                             </Button> &nbsp;
 
@@ -103,9 +104,9 @@ export function ListCategoriaProduto() {
                                                 inverted
                                                 circular
                                                 color='red'
-                                                title='Clique aqui para remover esta categoria'
+                                                title='Clique aqui para remover este comprador'
                                                 icon
-                                                onClick={e => confirmaRemover(categoria.id)}>
+                                                onClick={e => confirmaRemover(comprador.id)}>
                                                 <Icon name='trash' />
                                             </Button>
 
@@ -126,7 +127,7 @@ export function ListCategoriaProduto() {
             >
                 <Header icon>
                     <Icon name='trash' />
-                    <div style={{ marginTop: '5%' }}> Tem certeza que deseja remover essa categoria? </div>
+                    <div style={{ marginTop: '5%' }}> Tem certeza que deseja remover esse comprador? </div>
                 </Header>
                 <Modal.Actions>
                     <Button basic color='red' inverted onClick={() => setOpenModal(false)}>

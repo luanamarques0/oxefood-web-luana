@@ -78,6 +78,7 @@ export default function ListProduto() {
                                 <Table.Row>
                                     <Table.HeaderCell>Titulo</Table.HeaderCell>
                                     <Table.HeaderCell>Código</Table.HeaderCell>
+                                    <Table.HeaderCell>Categoria</Table.HeaderCell>
                                     <Table.HeaderCell>Descrição</Table.HeaderCell>
                                     <Table.HeaderCell>Valor unitario</Table.HeaderCell>
                                     <Table.HeaderCell>Tempo de entrega minimo</Table.HeaderCell>
@@ -93,7 +94,7 @@ export default function ListProduto() {
                                     <Table.Row key={produto.id}>
                                         <Table.Cell>{produto.titulo}</Table.Cell>
                                         <Table.Cell>{produto.codigo}</Table.Cell>
-                                        <Table.Cell>{produto.descricao}</Table.Cell>
+                                        <Table.Cell>{produto.categoria.descricao}</Table.Cell>
                                         <Table.Cell>{produto.valorUnitario}</Table.Cell>
                                         <Table.Cell>{produto.tempoEntregaMinimo}</Table.Cell>
                                         <Table.Cell>{produto.tempoEntregaMaximo}</Table.Cell>
