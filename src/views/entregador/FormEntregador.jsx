@@ -4,6 +4,7 @@ import { Button, Container, Divider, Form, FormSelect, Icon } from 'semantic-ui-
 import MenuSistema from "../../MenuSistema";
 import axios from "axios";
 import { Link, useLocation } from "react-router-dom";
+import { notifyError, notifySuccess } from '../../views/util/Util';
 
 export default function FormEntregador() {
 
@@ -68,7 +69,7 @@ export default function FormEntregador() {
                 console.log(data);
 
                 setIdEntregador(response.data.id)
-                setAtivo(data.ativo); 
+                setAtivo(data.ativo);
                 setNome(data.nome);
                 setCpf(data.cpf);
                 setRg(data.rg);
@@ -116,17 +117,25 @@ export default function FormEntregador() {
         if(idEntregador != null) {
             axios.put('http://localhost:8081/api/entregador/' + idEntregador, entregadorRequest)
             .then((response) => {console.log("Entregador alterado com sucesso.")})
-            .catch((error) => {console.log("Erro ao alterar um entregador: " + error) 
+            .catch((error) => {console.log("Erro ao alterar um entregador: " + error)
                 console.log(entregadorRequest)});
         } else {
             axios.post("http://localhost:8081/api/entregador", entregadorRequest)
             .then((response) => {
-                console.log('Entregador cadastrado com sucesso.');
-                console.log(entregadorRequest);
+                // console.log('Entregador cadastrado com sucesso.');
+                // console.log(entregadorRequest);
+                notifySuccess("Entregador cadastrado com sucesso.")
             })
             .catch((error) => {
-                console.log("Erro ao cadastrar entregador.");
-                console.log(error);
+                // console.log("Erro ao cadastrar entregador.");
+                // console.log(error);
+                if (error.response.data.errors !== undefined) {
+                    for (let i = 0; i < error.response.data.errors.length; i++){
+                        notifyError(error.response.data.errors[i].defaultMessage);
+                    }
+                } else {
+                    notifyError(error.response.data.message);
+                }
             });
         }
     }
@@ -136,7 +145,7 @@ export default function FormEntregador() {
             <MenuSistema tela='entregador' />
             <div style={{ marginTop: '3%' }}>
                 <Container textAlign='justified' >
-                    
+
                     {idEntregador === undefined &&
                         <h2> <span style={{ color: 'darkgray' }}> Entregador &nbsp;<Icon name='angle double right' size="small" /> </span> Cadastro</h2>
                     }

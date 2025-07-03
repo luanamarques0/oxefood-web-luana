@@ -3,6 +3,7 @@ import { Button, Container, Divider, Form, Icon } from "semantic-ui-react";
 import MenuSistema from "../../MenuSistema";
 import axios from 'axios';
 import { Link, useLocation } from "react-router-dom";
+import { notifyError, notifySuccess } from '../../views/util/Util';
 
 export default function FormProduto() {
     const [titulo, setTitulo] = useState();
@@ -63,11 +64,19 @@ export default function FormProduto() {
         } else {
             axios.post("http://localhost:8081/api/produto", produtoRequest)
                 .then((response) => {
-                    console.log('Produto cadastrado com sucesso.')
+                    // console.log('Produto cadastrado com sucesso.')
                     // console.log(produtoRequest)
+                    notifySuccess("Produto cadastrado com sucesso.")
                 })
                 .catch((error) => {
-                    console.log("Erro ao inclui um produto")
+                    // console.log("Erro ao inclui um produto")
+                    if (error.response.data.erros !== undefined) {
+                        for (let i = 0; error.response.data.erros.length > i; i++){
+                            notifyError(error.response.data.erros[i].defaultMessage);
+                        }
+                    } else {
+                        notifyError(error.response.data.message);
+                    }
                 })
         }
 

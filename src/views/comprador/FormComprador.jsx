@@ -3,6 +3,7 @@ import { Button, Container, Divider, Form, Icon } from "semantic-ui-react";
 import MenuSistema from "../../MenuSistema";
 import axios from 'axios';
 import { Link, useLocation } from "react-router-dom";
+import { notifyError, notifySuccess } from '../../views/util/Util';
 
 export default function FormComprador(){
     const [nome, setNome] = useState();
@@ -61,11 +62,19 @@ export default function FormComprador(){
         } else {
             axios.post("http://localhost:8081/api/comprador", compradorRequest)
                 .then((response) => {
-                    console.log('comprador cadastrado com sucesso.')
+                    // console.log('comprador cadastrado com sucesso.')
                     // console.log(compradorRequest)
+                    notifySuccess("Comprador cadastrado com sucesso.")
                 })
                 .catch((error) => {
-                    console.log("Erro ao inclui um comprador")
+                    // console.log("Erro ao inclui um comprador")
+                    if (error.response.data.errors !== undefined) {
+                        for (let i = 0; i < error.response.data.errors.length; i++){
+                            notifyError(error.response.data.errors[i]);
+                        }
+                    } else {
+                        notifyError(error.response.data.message);
+                    }
                 })
         }
 
@@ -108,7 +117,7 @@ export default function FormComprador(){
                                     }}
                                 />
                             </Form.Group>
-                           
+
                         </Form>
 
                         <div style={{ marginTop: '4%' }}>
@@ -149,7 +158,7 @@ export default function FormComprador(){
 
     }
 
-    
+
 }
 
 
@@ -162,7 +171,7 @@ export default function FormComprador(){
     // @Column
     // private String enderecoComercial;
 
-    // @Column 
+    // @Column
     // private String enderecoResidencial;
 
     // @Column

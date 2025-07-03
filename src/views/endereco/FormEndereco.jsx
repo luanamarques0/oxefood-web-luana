@@ -3,6 +3,7 @@ import { useLocation, useNavigate } from 'react-router-dom';
 import { Button, Form, Message, Icon } from 'semantic-ui-react';
 import axios from 'axios';
 import MenuSistema from '../../MenuSistema';
+import { notifyError, notifySuccess } from '../../views/util/Util';
 
 export default function FormEndereco() {
     const location = useLocation();
@@ -31,11 +32,20 @@ export default function FormEndereco() {
                 `http://localhost:8081/api/cliente/endereco/${clienteId}`,
                 endereco
             );
-            setMensagem({ sucesso: 'Endereço cadastrado com sucesso!', erro: '' });
+            // setMensagem({ sucesso: 'Endereço cadastrado com sucesso!', erro: '' });
+            notifySuccess('Cliente cadastrado com sucesso.');
             setTimeout(() => navigate('/clientes'), 1500);
         } catch (error) {
             console.error(error);
-            setMensagem({ sucesso: '', erro: 'Erro ao cadastrar endereço.' });
+            // setMensagem({ sucesso: '', erro: 'Erro ao cadastrar endereço.' });
+            if (error.response.data.errors !== undefined) {
+
+                for (let i = 0; i < error.response.data.errors.length; i++) {
+                    notifyError(error.response.data.errors[i].defaultMessage)
+                }
+            } else {
+                notifyError(error.response.data.message)
+            }
         }
     };
 
@@ -47,7 +57,7 @@ export default function FormEndereco() {
                 onSubmit={handleSubmit}
                 success={!!mensagem.sucesso}
                 error={!!mensagem.erro}
-                // style={{ maxWidth: 700, margin: '0 auto' }}
+            // style={{ maxWidth: 700, margin: '0 auto' }}
             >
                 <Form.Input
                     label='Rua'
