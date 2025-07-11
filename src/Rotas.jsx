@@ -13,23 +13,77 @@ import { ListCategoriaProduto } from './views/categoriaProduto/ListCategoriaProd
 import FormEndereco from './views/endereco/FormEndereco';
 import ListComprador from './views/comprador/ListComprador';
 import FormComprador from './views/comprador/FormComprador';
+import FormLogin from './views/login/FormLogin';
+
+import { ProtectedRoute } from './views/util/ProtectedRoute';
 
 function Rotas() {
     return (
         <>
             <Routes>
-                <Route path="/" element={ <Home/> } />
-                <Route path="list-cliente" element={ <ListCliente/> } />
-                <Route path="form-cliente" element={ <FormCliente/> } />
-                <Route path='form-endereco' element={ <FormEndereco /> } />
-                <Route path="list-produto" element={ <ListProduto/> } />
-                <Route path="form-produto" element={ <FormProduto/> } />
-                <Route path="list-produto-categoria" element={ <ListCategoriaProduto/> } />
-                <Route path="form-produto-categoria" element={ <FormCategoriaProduto/> } />
-                <Route path="list-entregador" element={ <ListEntregador/> } />
-                <Route path="form-entregador" element={ <FormEntregador/> } />
-                <Route path="list-comprador" element={ <ListComprador/> } />
-                <Route path="form-comprador" element={ <FormComprador/> } />
+                <Route path='/' element={<FormLogin />} />
+
+                <Route path="/home" element={
+                    <ProtectedRoute>
+                        <Home />
+                    </ProtectedRoute>
+                } />
+                <Route path="list-cliente" element={
+                    <ProtectedRoute>
+                        <ListCliente />
+                    </ProtectedRoute>
+                } />
+                <Route path="form-cliente" element={
+                    <ProtectedRoute>
+                        <FormCliente />
+                    </ProtectedRoute>
+                } />
+                <Route path="form-endereco" element={
+                    <ProtectedRoute>
+                        <FormEndereco />
+                    </ProtectedRoute>
+                } />
+                <Route path="list-produto" element={
+                    <ProtectedRoute>
+                        <ListProduto />
+                    </ProtectedRoute>
+                } />
+                <Route path="form-produto" element={
+                    <ProtectedRoute>
+                        <FormProduto />
+                    </ProtectedRoute>
+                } />
+                <Route path="list-produto-categoria" element={
+                    <ProtectedRoute>
+                        <ListCategoriaProduto />
+                    </ProtectedRoute>
+                } />
+                <Route path="form-produto-categoria" element={
+                    <ProtectedRoute>
+                        <FormCategoriaProduto />
+                    </ProtectedRoute>
+                } />
+                <Route path="list-entregador" element={
+                    <ProtectedRoute>
+                        <ListEntregador />
+                    </ProtectedRoute>
+                } />
+                <Route path="form-entregador" element={
+                    <ProtectedRoute>
+                        <FormEntregador />
+                    </ProtectedRoute>
+                } />
+                <Route path="list-comprador" element={
+                    <ProtectedRoute>
+                        <ListComprador />
+                    </ProtectedRoute>
+                } />
+                <Route path="form-comprador" element={
+                    <ProtectedRoute>
+                        <FormComprador />
+                    </ProtectedRoute>
+                } />
+
             </Routes>
         </>
     )
